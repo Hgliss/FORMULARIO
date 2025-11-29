@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Solicitud de Cambio</title>
+  <style>
+    :root {
+      --bg: #f4f6ff;
+      --card-bg: #ffffff;
+      --primary: #3949ab;
+      --accent: #ffb300;
+      --border-soft: #d0d4ea;
+      --text-main: #333;
+      --text-soft: #666;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px 10px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 900px;
+      padding: 24px 26px 28px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.09);
+      border: 1px solid rgba(0,0,0,.02);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border-soft);
+      padding-bottom: 8px;
+    }
+
+    .title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .subtitle {
+      font-size: .85rem;
+      color: var(--text-soft);
+    }
+
+    .codigo-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #e7e9ff;
+      border: 1px solid #c4c8ff;
+      font-size: .85rem;
+      color: #20308f;
+      white-space: nowrap;
+    }
+
+    form {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .section {
+      background: #fafbff;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      padding: 12px 14px 14px;
+      margin-top: 8px;
+    }
+
+    .section-title {
+      font-size: .95rem;
+      font-weight: 600;
+      margin: 0 0 8px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .section-title::before {
+      content: "";
+      width: 4px;
+      height: 16px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, var(--primary), var(--accent));
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+    }
+
+    /* CAMBIO IMPORTANTE */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 0 0 auto;   /* ya no crece en alto */
+      min-width: 0;
+    }
+
+    /* Solo los fields dentro de .row ocupan ancho flexible */
+    .row .field {
+      flex: 1 1 180px;
+      min-width: 180px;
+    }
+
+    label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text-soft);
+    }
+
+    .line-input {
+      border: none;
+      border-bottom: 1px solid var(--border-soft);
+      padding: 4px 2px;
+      font-size: .85rem;
+      background: transparent;
+      outline: none;
+    }
+
+    .line-input:focus {
+      border-bottom-color: var(--primary);
+    }
+
+    textarea, select {
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-soft);
+      font-size: .85rem;
+      background: #fff;
+      outline: none;
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    textarea:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(57,73,171,.15);
+    }
+
+    .checkbox-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      margin-top: 4px;
+      font-size: .8rem;
+    }
+
+    .checkbox-row label {
+      font-weight: 500;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .double {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 10px 16px;
+    }
+
+    .signatures {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap: 16px;
+      margin-top: 6px;
+    }
+
+    .signature-block {
+      border-top: 1px dashed #b7bbcf;
+      padding-top: 6px;
+      font-size: .8rem;
+    }
+
+    .signature-block div {
+      margin-top: 4px;
+    }
+
+    .footer {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-print {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: white;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-print:hover { background:#2b3a9a; }
+
+    @media print {
+      body { background: #fff; }
+      .page { padding: 0; }
+      .card { box-shadow: none; border-radius: 0; border:none; }
+      .btn-print { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="card">
+      <div class="header">
+        <div>
+          <div class="title">Formulario de Solicitud de Cambio</div>
+          <div class="subtitle">Para registrar, evaluar y aprobar modificaciones al proyecto.</div>
+        </div>
+        <div class="codigo-chip">
+          Código:
+          <input class="line-input" type="text" placeholder="SC-001" style="width:80px;border-bottom-color:#9aa2e5;">
+        </div>
+      </div>
+
+      <form>
+        <!-- Proyecto -->
+        <div class="field">
+          <label>Proyecto:</label>
+          <input class="line-input" type="text" placeholder="Nombre del proyecto">
+        </div>
+
+        <!-- 1. Datos generales -->
+        <div class="section">
+          <h3 class="section-title">1. Datos del solicitante</h3>
+          <div class="row">
+            <div class="field">
+              <label>Solicitado por:</label>
+              <input class="line-input" type="text" placeholder="Nombre completo">
+            </div>
+            <div class="field">
+              <label>Área / Rol:</label>
+              <input class="line-input" type="text" placeholder="Ej. Gestión de Proyectos">
+            </div>
+            <div class="field">
+              <label>Fecha de solicitud:</label>
+              <input class="line-input" type="date">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Descripción -->
+        <div class="section">
+          <h3 class="section-title">2. Descripción del cambio</h3>
+          <div class="field">
+            <label>Descripción del cambio solicitado:</label>
+            <textarea placeholder="Describe qué se desea cambiar, agregar o eliminar."></textarea>
+          </div>
+          <div class="field" style="margin-top:6px;">
+            <label>Tipo de cambio (pueden ser varios):</label>
+            <div class="checkbox-row">
+              <label><input type="checkbox"> Alcance</label>
+              <label><input type="checkbox"> Tiempo / Cronograma</label>
+              <label><input type="checkbox"> Costo / Presupuesto</label>
+              <label><input type="checkbox"> Calidad</label>
+              <label><input type="checkbox"> Otro</label>
+            </div>
+          </div>
+          <div class="field" style="margin-top:6px;">
+            <label>Justificación del cambio:</label>
+            <textarea placeholder="Por qué es necesario este cambio."></textarea>
+          </div>
+        </div>
+
+        <!-- 3. Impacto -->
+        <div class="section">
+          <h3 class="section-title">3. Análisis de impacto (lo llena el Gestor del Proyecto)</h3>
+          <div class="double">
+            <div class="field">
+              <label>Impacto en el alcance:</label>
+              <textarea></textarea>
+            </div>
+            <div class="field">
+              <label>Impacto en el tiempo / cronograma:</label>
+              <textarea></textarea>
+            </div>
+            <div class="field">
+              <label>Impacto en el costo / presupuesto:</label>
+              <textarea></textarea>
+            </div>
+            <div class="field">
+              <label>Impacto en la calidad:</label>
+              <textarea></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Recursos y riesgos -->
+        <div class="section">
+          <h3 class="section-title">4. Recursos y riesgos</h3>
+          <div class="field">
+            <label>Recursos adicionales necesarios:</label>
+            <textarea placeholder="Horas extra, personal, materiales, presupuesto adicional, etc."></textarea>
+          </div>
+          <div class="field" style="margin-top:6px;">
+            <label>Riesgos asociados al cambio:</label>
+            <textarea placeholder="Riesgos técnicos, de costo, de plazo, operativos, etc."></textarea>
+          </div>
+        </div>
+
+        <!-- 5. Recomendación / decisión -->
+        <div class="section">
+          <h3 class="section-title">5. Recomendación y decisión</h3>
+          <div class="field">
+            <label>Recomendación del Gestor del Proyecto:</label>
+            <textarea placeholder="Recomiendo aprobar / rechazar el cambio por las siguientes razones..."></textarea>
+          </div>
+          <div class="field" style="margin-top:6px;">
+            <label>Decisión final:</label>
+            <div class="checkbox-row">
+              <label><input type="radio" name="decision"> Aprobado</label>
+              <label><input type="radio" name="decision"> Rechazado</label>
+              <label><input type="radio" name="decision"> En evaluación</label>
+            </div>
+          </div>
+          <div class="row" style="margin-top:6px;">
+            <div class="field">
+              <label>Fecha prevista de implementación:</label>
+              <input class="line-input" type="date">
+            </div>
+            <div class="field">
+              <label>Observaciones:</label>
+              <textarea></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Firmas -->
+        <div class="section">
+          <h3 class="section-title">6. Firmas</h3>
+          <div class="signatures">
+            <div class="signature-block">
+              <strong>Gestor del Proyecto</strong>
+              <div>Nombre: <input class="line-input" type="text" style="width:70%;"></div>
+              <div>Firma (si aplica digital): <input class="line-input" type="text" style="width:60%;"></div>
+              <div>Fecha: <input class="line-input" type="date" style="width:55%;"></div>
+            </div>
+            <div class="signature-block">
+              <strong>Patrocinador / Dueño del Proyecto</strong>
+              <div>Nombre: <input class="line-input" type="text" style="width:70%;"></div>
+              <div>Firma (si aplica digital): <input class="line-input" type="text" style="width:60%;"></div>
+              <div>Fecha: <input class="line-input" type="date" style="width:55%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <button type="button" class="btn-print" onclick="window.print()">
+            🖨 Imprimir / Guardar en PDF
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
